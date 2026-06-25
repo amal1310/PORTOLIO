@@ -1,568 +1,346 @@
-/*==================================================
-            GOOGLE FONT
-===================================================*/
+/*==========================================
+        TYPING EFFECT
+==========================================*/
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+const roles = [
+    "AI Engineer",
+    "Machine Learning Engineer",
+    "Data Scientist",
+    "Deep Learning Engineer",
+    "Computer Vision Engineer",
+    "Generative AI Developer",
+    "Embedded & IoT Engineer"
+];
 
-/*==================================================
-            VARIABLES
-===================================================*/
+let roleIndex = 0;
+let charIndex = 0;
+let deleting = false;
 
-:root{
+const typingElement = document.getElementById("typing");
 
-    --bg:#050816;
-    --bg2:#0b1023;
+function typeEffect() {
 
-    --card:rgba(255,255,255,.06);
+    const currentRole = roles[roleIndex];
 
-    --primary:#00E5FF;
+    if (!deleting) {
 
-    --secondary:#7B61FF;
+        typingElement.textContent = currentRole.substring(0, charIndex++);
 
-    --white:#ffffff;
+        if (charIndex > currentRole.length) {
 
-    --gray:#B8C0D4;
+            deleting = true;
 
-    --border:rgba(255,255,255,.08);
+            setTimeout(typeEffect, 1500);
 
-    --shadow:0 15px 45px rgba(0,0,0,.35);
+            return;
+        }
+
+    } else {
+
+        typingElement.textContent = currentRole.substring(0, charIndex--);
+
+        if (charIndex < 0) {
+
+            deleting = false;
+
+            roleIndex++;
+
+            if (roleIndex >= roles.length)
+                roleIndex = 0;
+        }
+    }
+
+    setTimeout(typeEffect, deleting ? 45 : 100);
+}
+
+window.onload = typeEffect;
+
+
+/*==========================================
+        ACTIVE NAVBAR
+==========================================*/
+
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-links a");
+
+window.addEventListener("scroll", () => {
+
+    let current = "";
+
+    sections.forEach(section => {
+
+        const sectionTop = section.offsetTop - 150;
+
+        if (pageYOffset >= sectionTop)
+            current = section.getAttribute("id");
+
+    });
+
+    navLinks.forEach(link => {
+
+        link.classList.remove("active");
+
+        if (link.getAttribute("href") === "#" + current)
+            link.classList.add("active");
+
+    });
+
+});
+
+
+/*==========================================
+        STICKY NAVBAR
+==========================================*/
+
+const navbar = document.querySelector("nav");
+
+window.addEventListener("scroll", () => {
+
+    if (window.scrollY > 80) {
+
+        navbar.style.background = "rgba(5,8,22,.95)";
+        navbar.style.boxShadow = "0 10px 30px rgba(0,0,0,.3)";
+
+    }
+
+    else {
+
+        navbar.style.background = "rgba(5,8,22,.65)";
+        navbar.style.boxShadow = "none";
+
+    }
+
+});
+
+
+/*==========================================
+        SMOOTH SCROLL
+==========================================*/
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+
+    anchor.addEventListener("click", function(e){
+
+        e.preventDefault();
+
+        const target = document.querySelector(this.getAttribute("href"));
+
+        if(target){
+
+            target.scrollIntoView({
+
+                behavior:"smooth"
+
+            });
+
+        }
+
+    });
+
+});
+
+
+/*==========================================
+        SCROLL REVEAL
+==========================================*/
+
+const revealElements = document.querySelectorAll(
+
+".hero-left,.hero-right,.about-container,.skill-card,.timeline-item,.project-card,.contact-box"
+
+);
+
+function reveal(){
+
+    const trigger = window.innerHeight * 0.85;
+
+    revealElements.forEach(el=>{
+
+        const top = el.getBoundingClientRect().top;
+
+        if(top < trigger){
+
+            el.classList.add("show");
+
+        }
+
+    });
 
 }
 
-/*==================================================
-            RESET
-===================================================*/
+window.addEventListener("scroll", reveal);
 
-*{
+reveal();
 
-margin:0;
-padding:0;
-box-sizing:border-box;
 
-}
+/*==========================================
+        COUNTER ANIMATION
+==========================================*/
 
-html{
+const counters = document.querySelectorAll(".card h1");
 
-scroll-behavior:smooth;
+let started = false;
 
-}
+window.addEventListener("scroll",()=>{
 
-body{
+    const about = document.querySelector("#about");
 
-font-family:'Poppins',sans-serif;
+    if(!about) return;
 
-background:linear-gradient(135deg,#050816,#0b1023,#050816);
+    if(window.scrollY > about.offsetTop - 350 && !started){
 
-color:white;
+        counters.forEach(counter=>{
 
-overflow-x:hidden;
+            const target = parseInt(counter.innerText);
 
-}
+            let count = 0;
 
-/*==================================================
-            SCROLLBAR
-===================================================*/
+            const update = ()=>{
 
-::-webkit-scrollbar{
+                count++;
 
-width:10px;
+                counter.innerText = count + "+";
 
-}
+                if(count < target){
 
-::-webkit-scrollbar-track{
+                    requestAnimationFrame(update);
 
-background:#0b1023;
+                }
 
-}
+            }
 
-::-webkit-scrollbar-thumb{
+            update();
 
-background:linear-gradient(#00E5FF,#7B61FF);
+        });
 
-border-radius:20px;
+        started = true;
 
-}
+    }
 
-/*==================================================
-            ANIMATED BACKGROUND
-===================================================*/
+});
 
-body::before{
 
-content:"";
+/*==========================================
+        PROGRESS BAR
+==========================================*/
 
-position:fixed;
+const progress = document.createElement("div");
 
-width:700px;
+progress.id = "progressBar";
 
-height:700px;
+document.body.appendChild(progress);
 
-background:#00e5ff20;
+window.addEventListener("scroll",()=>{
 
-border-radius:50%;
+    const totalHeight =
 
-filter:blur(140px);
+    document.documentElement.scrollHeight -
 
-left:-250px;
+    document.documentElement.clientHeight;
 
-top:-250px;
+    const progressHeight =
 
-z-index:-1;
+    (window.pageYOffset/totalHeight)*100;
 
-animation:move1 12s infinite alternate;
+    progress.style.width = progressHeight + "%";
 
-}
+});
 
-body::after{
 
-content:"";
+/*==========================================
+        BACK TO TOP BUTTON
+==========================================*/
 
-position:fixed;
+const topButton = document.createElement("button");
 
-width:600px;
+topButton.innerHTML = "↑";
 
-height:600px;
+topButton.id = "topBtn";
 
-background:#7b61ff25;
+document.body.appendChild(topButton);
 
-border-radius:50%;
+window.addEventListener("scroll",()=>{
 
-filter:blur(150px);
+    if(window.scrollY > 500){
 
-right:-200px;
+        topButton.style.display = "flex";
 
-bottom:-250px;
+    }
 
-z-index:-1;
+    else{
 
-animation:move2 12s infinite alternate;
+        topButton.style.display = "none";
 
-}
+    }
 
-@keyframes move1{
+});
 
-0%{
+topButton.onclick = ()=>{
 
-transform:translateY(0);
+    window.scrollTo({
 
-}
+        top:0,
 
-100%{
+        behavior:"smooth"
 
-transform:translateY(120px);
+    });
 
-}
+};
 
-}
 
-@keyframes move2{
+/*==========================================
+        HOVER EFFECT
+==========================================*/
 
-0%{
+const projectCards = document.querySelectorAll(".project-card");
 
-transform:translateX(0);
+projectCards.forEach(card=>{
 
-}
+    card.addEventListener("mouseenter",()=>{
 
-100%{
+        card.style.transform="translateY(-12px)";
 
-transform:translateX(-120px);
+    });
 
-}
+    card.addEventListener("mouseleave",()=>{
 
-}
+        card.style.transform="translateY(0px)";
 
-/*==================================================
-            NAVBAR
-===================================================*/
+    });
 
-nav{
+});
 
-position:fixed;
 
-top:0;
+/*==========================================
+        PARALLAX HERO IMAGE
+==========================================*/
 
-left:0;
+window.addEventListener("mousemove",(e)=>{
 
-width:100%;
+    const img = document.querySelector(".hero-right img");
 
-padding:22px 9%;
+    if(!img) return;
 
-display:flex;
+    const x = (window.innerWidth/2 - e.pageX)/45;
 
-justify-content:space-between;
+    const y = (window.innerHeight/2 - e.pageY)/45;
 
-align-items:center;
+    img.style.transform =
 
-background:rgba(5,8,22,.65);
+    `translate(${x}px,${y}px)`;
 
-backdrop-filter:blur(20px);
+});
 
-z-index:1000;
 
-border-bottom:1px solid rgba(255,255,255,.05);
+/*==========================================
+        LOADING ANIMATION
+==========================================*/
 
-}
+window.addEventListener("load",()=>{
 
-.logo{
+    document.body.classList.add("loaded");
 
-font-size:28px;
+});
 
-font-weight:700;
 
-color:white;
-
-}
-
-.logo span{
-
-color:var(--primary);
-
-}
-
-.nav-links{
-
-display:flex;
-
-list-style:none;
-
-gap:35px;
-
-}
-
-.nav-links a{
-
-color:white;
-
-text-decoration:none;
-
-font-weight:500;
-
-transition:.3s;
-
-}
-
-.nav-links a:hover{
-
-color:var(--primary);
-
-}
-
-.resume-btn{
-
-padding:12px 28px;
-
-border-radius:30px;
-
-background:linear-gradient(135deg,#00E5FF,#7B61FF);
-
-color:white;
-
-text-decoration:none;
-
-font-weight:600;
-
-transition:.4s;
-
-}
-
-.resume-btn:hover{
-
-transform:translateY(-4px);
-
-box-shadow:0 10px 25px rgba(0,229,255,.3);
-
-}
-
-/*==================================================
-            HERO SECTION
-===================================================*/
-
-.hero{
-
-min-height:100vh;
-
-display:grid;
-
-grid-template-columns:1fr 1fr;
-
-align-items:center;
-
-padding:120px 9% 60px;
-
-gap:60px;
-
-}
-
-.hero-left h3{
-
-font-size:26px;
-
-color:var(--gray);
-
-margin-bottom:10px;
-
-}
-
-.hero-left h1{
-
-font-size:70px;
-
-font-weight:700;
-
-margin-bottom:10px;
-
-}
-
-.hero-left h2{
-
-font-size:35px;
-
-color:var(--primary);
-
-margin-bottom:25px;
-
-min-height:50px;
-
-}
-
-.hero-left p{
-
-color:var(--gray);
-
-line-height:1.9;
-
-font-size:17px;
-
-max-width:600px;
-
-margin-bottom:40px;
-
-}
-
-/*==================================================
-            BUTTONS
-===================================================*/
-
-.hero-buttons{
-
-display:flex;
-
-gap:20px;
-
-margin-bottom:40px;
-
-}
-
-.hero-buttons button{
-
-padding:15px 35px;
-
-font-size:16px;
-
-border:none;
-
-border-radius:40px;
-
-cursor:pointer;
-
-font-weight:600;
-
-transition:.4s;
-
-}
-
-.hero-buttons button:first-child{
-
-background:linear-gradient(135deg,#00E5FF,#7B61FF);
-
-color:white;
-
-}
-
-.hero-buttons button:first-child:hover{
-
-transform:translateY(-5px);
-
-box-shadow:0 15px 35px rgba(0,229,255,.4);
-
-}
-
-.outline{
-
-background:transparent;
-
-border:2px solid #00E5FF !important;
-
-color:white;
-
-}
-
-.outline:hover{
-
-background:#00E5FF;
-
-color:#050816;
-
-}
-
-/*==================================================
-            SOCIAL ICONS
-===================================================*/
-
-.social{
-
-display:flex;
-
-gap:20px;
-
-}
-
-.social a{
-
-width:55px;
-
-height:55px;
-
-border-radius:50%;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-text-decoration:none;
-
-font-size:24px;
-
-background:rgba(255,255,255,.05);
-
-color:white;
-
-border:1px solid rgba(255,255,255,.08);
-
-transition:.4s;
-
-}
-
-.social a:hover{
-
-transform:translateY(-8px);
-
-background:linear-gradient(135deg,#00E5FF,#7B61FF);
-
-}
-
-/*==================================================
-            HERO IMAGE
-===================================================*/
-
-.hero-right{
-
-display:flex;
-
-justify-content:center;
-
-}
-
-.hero-right img{
-
-width:420px;
-
-height:420px;
-
-border-radius:50%;
-
-object-fit:cover;
-
-border:8px solid rgba(255,255,255,.08);
-
-box-shadow:
-
-0 0 40px rgba(0,229,255,.25),
-
-0 0 80px rgba(123,97,255,.25);
-
-animation:floatImage 5s ease-in-out infinite;
-
-}
-
-@keyframes floatImage{
-
-0%{
-
-transform:translateY(0px);
-
-}
-
-50%{
-
-transform:translateY(-18px);
-
-}
-
-100%{
-
-transform:translateY(0px);
-
-}
-
-}
-
-/*==================================================
-            SECTION TITLE
-===================================================*/
-
-.section-title{
-
-font-size:42px;
-
-text-align:center;
-
-margin-bottom:60px;
-
-font-weight:700;
-
-position:relative;
-
-}
-
-.section-title::after{
-
-content:"";
-
-position:absolute;
-
-width:80px;
-
-height:4px;
-
-background:linear-gradient(90deg,#00E5FF,#7B61FF);
-
-left:50%;
-
-transform:translateX(-50%);
-
-bottom:-15px;
-
-border-radius:20px;
-
-}
-
-/*==================================================
-            GLASS CARD
-===================================================*/
-
-.card{
-
-background:rgba(255,255,255,.05);
-
-backdrop-filter:blur(18px);
-
-border:1px solid rgba(255,255,255,.08);
-
-border-radius:20px;
-
-box-shadow:var(--shadow);
-
-}
+console.log("Portfolio Loaded Successfully");

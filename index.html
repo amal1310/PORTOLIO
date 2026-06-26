@@ -1416,51 +1416,43 @@
 
             <!-- Contact Form -->
 
-<!-- Contact Form -->
+<form action="https://api.web3forms.com/submit" method="POST">
 
-<div class="contact-form glass">
+    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY">
 
-    <form action="https://api.web3forms.com/submit" method="POST">
+    <input
+        type="text"
+        name="name"
+        placeholder="Your Name"
+        required>
 
-        <!-- Web3Forms Access Key -->
-        <input
-            type="hidden"
-            name="access_key"
-            value="6439835d-7e74-4bc1-a7c9-835e610f143a">
+    <input
+        type="email"
+        name="email"
+        placeholder="Your Email"
+        required>
 
-        <!-- Optional: Redirect after submission -->
-        <!--
-        <input
-            type="hidden"
-            name="redirect"
-            value="https://yourusername.github.io/PORTOLIO/thankyou.html">
-        -->
+    <input
+        type="text"
+        name="subject"
+        placeholder="Subject"
+        required>
 
-        <!-- Optional: Disable CAPTCHA -->
-        <!--
-        <input
-            type="hidden"
-            name="botcheck"
-            value="false">
-        -->
-<!-- ========================= -->
-<!-- Contact Section -->
-<!-- ========================= -->
+    <textarea
+        name="message"
+        rows="7"
+        placeholder="Write your message..."
+        required></textarea>
 
-<section id="contact" class="contact">
+    <button
+        type="submit"
+        class="btn-primary">
 
-    <div class="section-title">
+        Send Message
 
-        <h2>Contact Me</h2>
+    </button>
 
-        <div class="line"></div>
-
-        <p>Let's build something amazing together.</p>
-
-    </div>
-
-    <div class="contact-container">
-
+</form>
         <!-- Contact Information -->
 
         <div class="contact-info glass">

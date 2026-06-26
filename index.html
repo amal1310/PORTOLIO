@@ -1416,45 +1416,69 @@
 
             <!-- Contact Form -->
 
-            <div class="contact-form glass">
+<!-- Contact Form -->
 
-                <form>
+<div class="contact-form glass">
 
-                    <input
-                        type="text"
-                        placeholder="Your Name"
-                        required>
+    <form action="https://api.web3forms.com/submit" method="POST">
 
-                    <input
-                        type="email"
-                        placeholder="Your Email"
-                        required>
+        <!-- Web3Forms Access Key -->
+        <input
+            type="hidden"
+            name="access_key"
+            value="6439835d-7e74-4bc1-a7c9-835e610f143a">
 
-                    <input
-                        type="text"
-                        placeholder="Subject"
-                        required>
+        <!-- Optional: Redirect after submission -->
+        <!--
+        <input
+            type="hidden"
+            name="redirect"
+            value="https://yourusername.github.io/PORTOLIO/thankyou.html">
+        -->
 
-                    <textarea
-                        rows="7"
-                        placeholder="Write your message..."
-                        required></textarea>
+        <!-- Optional: Disable CAPTCHA -->
+        <!--
+        <input
+            type="hidden"
+            name="botcheck"
+            value="false">
+        -->
 
-                    <button
-                        type="submit"
-                        class="btn-primary">
+        <input
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            required>
 
-                        Send Message
+        <input
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            required>
 
-                    </button>
+        <input
+            type="text"
+            name="subject"
+            placeholder="Subject"
+            required>
 
-                </form>
+        <textarea
+            name="message"
+            rows="7"
+            placeholder="Write your message..."
+            required></textarea>
 
-            </div>
+        <button
+            type="submit"
+            class="btn-primary">
 
-        </div>
+            Send Message
 
-    </section>
+        </button>
+
+    </form>
+
+</div>
 
     <!-- ========================= -->
     <!-- Footer -->
